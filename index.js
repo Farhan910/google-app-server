@@ -50,23 +50,23 @@ async function run() {
       res.send(result);
     });
     app.put("/toDoList/:id", async (req, res) => {
-        const id = req.params.id;
-        const list = req.body;
-        const filter = { _id: ObjectId(id) };
-        const options = { upsert: true };
-        const updateDoc = {
-          $set: {
-            task : list.task,
-          },
-        };
-        
-        
-        const result = tasksCollection.updateMany(filter, updateDoc, options);
-        res.send(result);
+      const id= req.params.id;
+      const list = req.body;
+      const filter = { _id: ObjectId(id) };
+      const options = { upsert: true };
+      const updateDoc = {
+        $set: {
+           task: list.task,
+        },
+      };
+      const result = tasksCollection.updateOne(filter, updateDoc, options);
+      res.send(result);
     });
-    app.delete("/completed", async (req, res) => {
-      const task = req.body;
-      const result = await completedCollection.deleteOne(task);
+    app.delete("/completed/:id", async (req, res) => {
+      const task = req.params.id;
+      const result = await completedCollection.deleteOne({
+        _id: ObjectId(task),
+      });
       res.send(result);
     });
 
