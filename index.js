@@ -49,7 +49,7 @@ async function run() {
       const result = await tasksCollection.deleteOne(task);
       res.send(result);
     });
-    app.put("/toDoList ", async (req, res) => {
+    app.put("/toDoList/:id", async (req, res) => {
         const id = req.params.id;
         const list = req.body;
         const filter = { _id: ObjectId(id) };
@@ -61,7 +61,7 @@ async function run() {
         };
         
         
-        const result = tasksCollection.updateOne(filter, updateDoc, options);
+        const result = tasksCollection.updateMany(filter, updateDoc, options);
         res.send(result);
     });
     app.delete("/completed", async (req, res) => {
